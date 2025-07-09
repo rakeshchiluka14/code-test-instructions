@@ -1,39 +1,99 @@
-# URL Shortener Coding Task
+// README.md for URL Shortener
 
-## Task
+# URL Shortener
 
-Build a simple **URL shortener** in a ** preferably JVM-based language** (e.g. Java, Kotlin).
+A simple Spring Boot application to shorten URLs with support for custom aliases, Swagger documentation, H2 database, and Docker.
 
-It should:
+## Features
 
-- Accept a full URL and return a shortened URL.
-- Persist the shortened URLs across restarts.
-- Allow a user to **customise the shortened URL** (e.g. user provides `my-custom-alias` instead of a random string).
-- Expose a **simple UI** (basic form is fine — no need for a polished design).
-- Expose a **RESTful API** to perform create/read/delete operations on URLs.  
-  → Refer to the provided [`openapi.yaml`](./openapi.yaml) for API structure and expected behaviour.
-- Include the ability to **delete a shortened URL** via the API.
-- **Have tests**.
-- Be containerised (e.g. Docker).
-- Include instructions for running locally.
+- Accepts a full URL and returns a shortened version
+- Supports user-defined custom aliases
+- Provides redirect endpoint for aliases
+- Allows deletion of a shortened URL
+- Lists all stored shortened URLs
+- REST API (Swagger/OpenAPI)
+- Minimal HTML UI for demo
+- In-memory H2 database
+- Docker support
 
-## Rules
+## Technologies Used
 
-- Fork the repository and work in your fork. Do not push directly to the main repository.
-- We suggest spending no longer than **4 hours**, but you can take longer if needed.
-- Commit often with meaningful messages.
-- Write tests.
-- Use the provided [`openapi.yaml`](./openapi.yaml) as a reference.
-- Focus on clean, maintainable code.
+- Java 17
+- Spring Boot 3
+- JPA with H2 Database
+- Springdoc OpenAPI for Swagger
+- JUnit 5 and Mockito for tests
+- Docker (containerization)
 
-## Deliverables
+## Getting Started
 
-- Working code.
-- Simple UI.
-- RESTful API matching the OpenAPI spec.
-- Tests.
-- Dockerfile.
-- README with:
-  - How to build and run locally.
-  - Example usage (UI and/or API).
-  - Any notes or assumptions.
+### 🔧 Build and Run Locally
+
+```bash
+# Clone the repo
+git clone https://github.com/your-repo/url-shortener.git
+cd url-shortener
+
+# Build the app
+./mvnw clean package -DskipTests
+
+# Run the app
+java -jar target/url-shortener-0.0.1-SNAPSHOT.jar
+```
+
+Then open your browser:
+- UI: http://localhost:8080/index.html
+- Swagger UI: http://localhost:8080/swagger-ui.html
+
+### 🐳 Run with Docker
+
+```bash
+# Build the Docker image
+docker build -t url-shortener .
+
+# Run the container
+docker run -p 8080:8080 url-shortener
+```
+
+## 🧪 Testing
+
+```bash
+# Run unit and integration tests
+./mvnw test
+```
+
+### What to Test
+- `/shorten` – Create short URL
+- `/urls` – List all URLs
+- `/{alias}` – Redirect to original URL
+- `DELETE /{alias}` – Delete URL
+
+## Example Usage
+
+### Request:
+```http
+POST /shorten
+Content-Type: application/json
+{
+  "fullUrl": "https://example.com",
+  "customAlias": "myalias"
+}
+```
+
+### Response:
+```json
+{
+  "alias": "myalias",
+  "fullUrl": "https://example.com",
+  "shortUrl": "http://localhost:8080/myalias"
+}
+```
+
+---
+
+## Notes
+- H2 is used for simplicity. For production, switch to PostgreSQL or MySQL.
+- Swagger is automatically available at `/swagger-ui.html`.
+- Use `docker-compose` if you want to add a database in future.
+
+---

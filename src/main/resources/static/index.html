@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortener</title>
+</head>
+<body>
+<h2>Simple URL Shortener</h2>
+<form action="/shorten" method="post">
+    <label>Full URL:
+        <input type="text" name="fullUrl" required>
+    </label>
+    <br><br>
+    <label>Custom Alias (optional):
+        <input type="text" name="customAlias">
+    </label>
+    <br><br>
+    <button type="submit">Shorten</button>
+</form>
+<p>Use tools like Postman or Swagger UI to view and manage shortened URLs via the REST API.</p>
+</body>
+</html>
